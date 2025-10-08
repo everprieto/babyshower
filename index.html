@@ -3,100 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Invitación Baby Shower Isabella</title>
-  <style>
-    :root {
-      --rosa: #ffe6f0;
-      --rosa-fuerte: #d63384;
-      --texto: #333;
-      --texto-suave: #555;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Comfortaa:wght@400;600&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-    }
+  <title>Isabella</title>
 
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background-color: var(--rosa);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+<style>
+  :root {
+    --rosa: #ffe6f0;
+    --rosa-fuerte: #d63384;
+    --texto: #4a4a4a;
+    --texto-suave: #666;
+  }
 
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      overflow: hidden;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    .card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+  body {
+    margin: 0;
+    font-family: "Comfortaa", sans-serif;
+    background-color: var(--rosa);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
 
-    .content {
-      padding: 24px 16px;
-    }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
 
-    h1 {
-      font-size: clamp(1.4em, 4vw, 1.8em);
-      color: var(--rosa-fuerte);
-      margin-bottom: 10px;
-    }
+  .card img {
+    width: 100%;
+    max-width: 50%;
+    margin: auto;
+  }
 
-    h2 {
-      font-size: clamp(1.1em, 3.5vw, 1.4em);
-      color: var(--texto);
-      margin-bottom: 15px;
-      word-wrap: break-word;
-    }
+  .content {
+    padding: 14px 16px;
+  }
 
-    p {
-      font-size: clamp(0.9em, 3vw, 1em);
-      color: var(--texto-suave);
-      margin-bottom: 10px;
-      line-height: 1.4em;
-      padding: 0 10px;
-    }
+  .titulo {
+    font-size: clamp(1.8em, 6vw, 2.5em);
+    color: var(--rosa-fuerte);
+    margin-bottom: 10px;
+    font-family: "Great Vibes", cursive;
+  }
 
-    .footer {
-      margin-top: 15px;
-      font-size: clamp(0.8em, 2.5vw, 0.95em);
-      color: #777;
-    }
+  /* 🌟 Animación para Isabella */
+  .nombre-bebe {
+  display: inline-block;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2em, 7vw, 3em);
+  background: linear-gradient(90deg, #d63384, #ff77b7, #ffaad4, #d63384);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: colorShift 6s ease-in-out infinite;
+  text-shadow: 0 2px 6px rgba(214, 51, 132, 0.2);
+}
 
-    video {
-      width: 100%;
-      border-radius: 15px;
-      margin-top: 15px;
-      outline: none;
-    }
+@keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+  #nombreInvitado {
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(1.5em, 3vw, 2.3em);
+    color: #d63384;
+    margin: 10px 0 5px 0;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  #mensajeInvitado {
+    font-family: "Comfortaa", sans-serif;
+    font-size: clamp(1em, 3vw, 1.1em);
+    color: var(--texto-suave);
+    margin: 10px 0;
+    line-height: 1.5em;
+  }
+
+  p {
+    font-family: "Comfortaa", sans-serif;
+    font-size: clamp(0.9em, 2.8vw, 1em);
+    color: var(--texto-suave);
+    margin-bottom: 10px;
+    line-height: 1.4em;
+  }
+
+  .footer {
+    margin-top: 15px;
+    font-size: clamp(0.8em, 2.5vw, 0.95em);
+    color: #999;
+    font-family: "Comfortaa", sans-serif;
+  }
+
+  video {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 15px;
+    outline: none;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 🦋 Animación de mariposas suaves */
+.butterflies {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.butterfly {
+  position: absolute;
+  font-size: 1.8rem;
+  animation: fly 12s linear infinite;
+  opacity: 0.8;
+}
+
+/* Posiciones iniciales variadas */
+.butterfly:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 13s; }
+.butterfly:nth-child(2) { left: 30%; animation-delay: 3s; animation-duration: 11s; }
+.butterfly:nth-child(3) { left: 60%; animation-delay: 6s; animation-duration: 14s; }
+.butterfly:nth-child(4) { left: 80%; animation-delay: 2s; animation-duration: 12s; }
+.butterfly:nth-child(5) { left: 50%; animation-delay: 8s; animation-duration: 15s; }
+
+@keyframes fly {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(50vh) translateX(20px) rotate(15deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(-20px) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+</style>
+
 </head>
 <body>
+  <!-- Mariposas flotando -->
+<div class="butterflies">
+  <span class="butterfly">🦋</span>
+  <span class="butterfly">🦋</span>
+  <span class="butterfly">🦋</span>
+  <span class="butterfly">🦋</span>
+  <span class="butterfly">🦋</span>
+</div>
+
   <div class="card" id="cardContainer" style="display:none;">
     <img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.jpeg" alt="Baby Shower" />
     <div class="content">
-      <h1>💖 Baby Shower de Isabella 💖</h1>
+      <div class="titulo">Invitación Baby Shower </div><div >💖 <div class="nombre-bebe">Isabella</div> 💖</div>
       <p>Danza el viento entre flores y mariposas,
 anunciando la llegada más hermosa…
-nuestra bebé Isabella 💕</p>
-      <h2 id="nombreInvitado"></h2>
+nuestra bebé Isabella 🦋</p>
+      <span id="nombreInvitado"></span>
       <p id="mensajeInvitado"></p>
       <p><strong>📅 Fecha:</strong> 29 de noviembre de 2025</p>
       <p><strong>📍 Lugar:</strong> Por definir</p>
