@@ -86,33 +86,11 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* 📱 Ajustes para pantallas muy pequeñas */
-    @media (max-width: 400px) {
-      .content {
-        padding: 16px 12px;
-      }
-      .footer {
-        margin-top: 10px;
-      }
-    }
-
-    /* 💻 Ajustes para pantallas grandes */
-    @media (min-width: 800px) {
-      body {
-        background: linear-gradient(180deg, #ffd6e9 0%, #fff0f6 100%);
-      }
-      .card {
-        max-width: 480px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <!-- Imagen desde GitHub -->
+  <div class="card" id="cardContainer" style="display:none;">
     <img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.jpeg" alt="Baby Shower" />
-
     <div class="content">
       <h1>💖 Baby Shower de Isabella 💖</h1>
       <h2 id="nombreInvitado"></h2>
@@ -121,7 +99,6 @@
       <p><strong>📍 Lugar:</strong> Por definir</p>
       <div class="footer">Con cariño, Claudia y Ever 💕</div>
 
-      <!-- Video desde GitHub -->
       <video id="videoInvitacion" controls>
         <source src="https://everprieto.github.io/babyshower/video.mp4" type="video/mp4">
         Tu navegador no soporta video HTML5.
@@ -130,18 +107,33 @@
   </div>
 
   <script>
-    // Leer parámetros de la URL
     const params = new URLSearchParams(window.location.search);
-    const nombre = params.get('nombre');
-    const mensaje = params.get('mensaje');
     const codigo = params.get('codigo');
 
-    // Validar si hay código (por seguridad)
-    if (codigo) {
-      if (nombre) document.getElementById('nombreInvitado').textContent = `Hola ${decodeURIComponent(nombre)}!`;
-      if (mensaje) document.getElementById('mensajeInvitado').textContent = decodeURIComponent(mensaje);
-    } else {
+    if (!codigo) {
       document.body.innerHTML = "<h2 style='text-align:center;color:#d63384;padding:20px;'>Acceso no autorizado ❌</h2>";
+    } else {
+      // Leer el archivo JSON
+      fetch('https://everprieto.github.io/babyshower/invitados.json')
+        .then(response => {
+          if (!response.ok) throw new Error("No se pudo cargar la lista de invitados");
+          return response.json();
+        })
+        .then(invitados => {
+          const invitado = invitados.find(i => i.codigo === codigo);
+
+          if (invitado) {
+            document.getElementById('nombreInvitado').textContent = `Hola ${invitado.nombre}!`;
+            document.getElementById('mensajeInvitado').textContent = invitado.mensaje;
+            document.getElementById('cardContainer').style.display = "block";
+          } else {
+            document.body.innerHTML = "<h2 style='text-align:center;color:#d63384;padding:20px;'>Código inválido ❌</h2>";
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          document.body.innerHTML = "<h2 style='text-align:center;color:#d63384;padding:20px;'>Error cargando datos ⚠️</h2>";
+        });
     }
   </script>
 </body>
