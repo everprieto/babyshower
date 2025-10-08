@@ -1,22 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Invitación Baby Shower</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invitación Baby Shower — Isabella</title>
   <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    :root{
+      --bg1:#fff0f6;
+      --bg2:#ffeef7;
+      --card:#ffffff;
+      --accent:#ff6fa3;
+      --muted:#7a7a7a;
+      --glass: rgba(255,255,255,0.6);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(165deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:420px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:var(--radius);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      overflow:hidden;
+      transform: translateZ(0);
+    }
+
+    .hero{
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,111,156,0.12), transparent 10%),
+        radial-gradient(circle at 90% 80%, rgba(255,197,220,0.18), transparent 10%);
+      padding:22px;
+      text-align:center;
+    }
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      background:linear-gradient(90deg,var(--accent),#ff9ccf);
+      color:white;
+      border-radius:999px;
+      font-weight:600;
+      font-size:14px;
+      box-shadow: 0 6px 18px rgba(255,111,156,0.15);
+    }
+
+    h1{
+      margin:12px 0 6px;
+      font-size:20px;
+      color:#333;
+    }
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .content{
+      padding:18px;
+    }
+
+    .invitation{
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.55));
+      border-radius:12px;
+      padding:14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .avatar{
+      width:68px;
+      height:68px;
+      border-radius:12px;
+      background: linear-gradient(135deg,#fff 0%, #ffd6e8 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--accent);
+      font-size:28px;
+      box-shadow:0 6px 18px rgba(255,111,156,0.08);
+      flex-shrink:0;
+    }
+
+    .info{
+      flex:1;
+    }
+    .info .title{ font-weight:700; color:#222; margin-bottom:6px; font-size:15px}
+    .info .meta{ font-size:13px; color:var(--muted) }
+
+    .video-wrap{
+      margin-top:14px;
+      border-radius:10px;
+      overflow:hidden;
+      background:#000;
+    }
+    video{
+      width:100%;
+      height:auto;
+      display:block;
+      background:#000;
+    }
+
+    .footer{
+      padding:12px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .btn{
+      background:linear-gradient(90deg,var(--accent),#ff9ccf);
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      font-size:14px;
+    }
+    .muted{ color:var(--muted); font-size:13px }
+
+    /* Responsive tweaks */
+    @media (max-width:420px){
+      .badge{ font-size:13px; padding:5px 10px }
+      h1{ font-size:18px }
+      .avatar{ width:60px; height:60px; font-size:24px }
+    }
   </style>
 </head>
 <body>
-  <h1 id="mensaje"></h1>
-  
-  <script>
-    // Captura los parámetros de la URL
-    const params = new URLSearchParams(window.location.search);
-    const nombre = params.get("nombre") || "invitado especial";
-    
-    // Personaliza el mensaje
-    document.getElementById("mensaje").textContent = `¡Hola ${nombre}! 💕 Bienvenido al Baby Shower de Isabella`;
-  </script>
+
+  <main class="card" role="main">
+    <section class="hero">
+      <div class="badge">Baby Shower — Niña</div>
+      <h1 id="greeting">¡Estás invitado!</h1>
+      <p class="lead" id="subtitle">Acompáñanos a celebrar la llegada de Isabella</p>
+    </section>
+
+    <section class="content">
+      <div class="invitation">
+        <div class="avatar" aria-hidden="true">👶</div>
+        <div class="info">
+          <div class="title">29 noviembre 2025 · Lugar: Por definir</div>
+          <div class="meta">Invitan: <strong>Claudia &amp; Ever</strong></div>
+        </div>
+      </div>
+
+      <div class="video-wrap" style="margin-top:14px;">
+        <!-- Video: por defecto intenta cargar "video.mp4" en la misma carpeta.
+             Puedes cambiarlo por ?video=miVideo.mp4 en la URL o subir otro nombre. -->
+        <video id="invVideo" controls playsinline poster="">
+          <source id="videoSource" src="video.mp4" type="video/mp4">
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:8px; align-items:center; justify-content:space-between;">
+        <div class="muted">Comparte este enlace por WhatsApp</div>
+        <button class="btn" id="shareBtn">Copiar enlace</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="muted">Isabella 👼 — 29/11/2025</div>
+      <div style="font-size:12px;color:#999">¡Te esperamos!</div>
+    </div>
+  </main>
+
+<script>
+  // Lee parámetros ?nombre=XXX y ?video=archivo.mp4
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get('nombre'); // ejemplo: ?nombre=Claudia
+  const videoParam = params.get('video'); // ejemplo: ?video=claudia.mp4
+
+  // Personaliza el saludo si hay nombre
+  const greetingEl = document.getElementById('greeting');
+  const subtitleEl = document.getElementById('subtitle');
+  if(nombre){
+    const safeName = String(nombre).replace(/</g,'').trim();
+    greetingEl.textContent = `¡Hola ${safeName}!`;
+    subtitleEl.textContent = `Claudia y Ever te invitan al Baby Shower de Isabella`;
+  }
+
+  // Ajusta el source del video si el usuario pasó ?video=archivo.mp4
+  const videoEl = document.getElementById('invVideo');
+  const sourceEl = document.getElementById('videoSource');
+  if(videoParam){
+    // Si el usuario pasó una URL absoluta (http/https) la usamos tal cual
+    if(/^https?:\/\//i.test(videoParam)){
+      sourceEl.src = videoParam;
+    } else {
+      // Relativo al sitio (archivo subido al repositorio)
+      sourceEl.src = videoParam;
+    }
+    videoEl.load();
+  }
+
+  // Botón copiar enlace con parámetros actuales
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    const link = location.href;
+    try {
+      await navigator.clipboard.writeText(link);
+      const old = document.getElementById('shareBtn').textContent;
+      document.getElementById('shareBtn').textContent = '¡Enlace copiado!';
+      setTimeout(()=> document.getElementById('shareBtn').textContent = 'Copiar enlace', 1600);
+    } catch(e){
+      alert('No se pudo copiar. Copia manualmente: ' + link);
+    }
+  });
+</script>
+
 </body>
 </html>
