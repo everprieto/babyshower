@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Invitación Baby Shower</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <h1 id="mensaje"></h1>
+  
+  <script>
+    // Captura los parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const nombre = params.get("nombre") || "invitado especial";
+    
+    // Personaliza el mensaje
+    document.getElementById("mensaje").textContent = `¡Hola ${nombre}! 💕 Bienvenido al Baby Shower de Isabella`;
+  </script>
+</body>
+</html>
