@@ -167,12 +167,12 @@ function renderTabla(regalos) {
     tr.innerHTML = `
       <td>${r.regalo} - ${r.descripcion}</td>
       <td>
-        <textarea id="nombre-${r.id}" placeholder="Escribe aquí..." ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
+        <textarea id="nombre-${r.id}" placeholder="Ingresa nombre(s) de quien(es) daran este detalle..." ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
       </td>
       <td>
         ${reservado
           ? `<button class="btn-liberar" onclick="liberar(${r.id})">Liberar</button>`
-          : `<button class="btn-reservar" onclick="reservar(${r.id})">Reservar</button>`
+          : `<button class="btn-reservar" onclick="reservar(${r.id})">Seleccionar</button>`
         }
       </td>
     `;
@@ -183,12 +183,12 @@ function renderTabla(regalos) {
 async function reservar(id) {
   const nombre = document.getElementById(`nombre-${id}`).value.trim();
   if (!nombre) {
-    showToast("Por favor escribe un nombre antes de reservar.", "error");
+    showToast("Por favor escribe un nombre antes de seleccionar.", "error");
     return;
   }
 
   showToast("Verificando disponibilidad...", "info");
-  showLoading(true, "Verificando y procesando reserva...");
+  showLoading(true, "Verificando y procesando la seleeccion...");
 
   try {
     const res = await fetch(API_URL);
@@ -206,7 +206,7 @@ async function reservar(id) {
       return;
     }
 
-    if (!confirm(`¿Deseas reservar "${regalo.regalo}" a nombre de "${nombre}"?`)) return;
+    if (!confirm(`¿Deseas seleccionar "${regalo.regalo}" a nombre de "${nombre}"?`)) return;
 
     await fetch(API_URL, {
       method: "POST",
@@ -214,9 +214,9 @@ async function reservar(id) {
     });
 
     await cargarRegalos();
-    showToast(`🎁 Has reservado "${regalo.regalo}" correctamente.`, "success");
+    showToast(`🎁 Has seleccionado "${regalo.regalo}" correctamente.`, "success");
   } catch (err) {
-    showToast("Error al procesar la reserva.", "error");
+    showToast("Error al procesar la seleccion.", "error");
   } finally {
     showLoading(false);
   }
