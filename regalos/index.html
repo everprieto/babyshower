@@ -223,21 +223,51 @@ async function reservar(id) {
 }
 
 async function liberar(id) {
-  showToast("Liberando regalo...", "info");
-  showLoading(true, "Liberando regalo...");
+  const nombreActual = document.getElementById(`nombre-${id}`).value.trim();
 
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "" })
-    });
-    await cargarRegalos();
-    showToast("El regalo ha sido liberado.", "info");
-  } catch {
-    showToast("Error al liberar el regalo.", "error");
-  } finally {
-    showLoading(false);
+  if (!nombreActual) {
+    showToast("No hay nombre registrado para este regalo.", "error");
+    return;
   }
+
+  // Crear textarea temporal para validación
+  const tr = document.getElementById(`nombre-${id}`).closest("tr");
+  let validTextarea = document.createElement("textarea");
+  validTextarea.placeholder = `Escribe exactamente: "${nombreActual}" para liberar, eliminaras la selección de regalo de esta persona.`;
+  validTextarea.style.width = "100%";
+  validTextarea.style.marginTop = "5px";
+  validTextarea.style.border = "2px solid #ff69b4";
+  validTextarea.id = `valid-${id}`;
+
+  // Agregar el textarea temporal al tr
+  tr.querySelector("td:nth-child(2)").appendChild(validTextarea);
+
+  // Cambiar botón a "Confirmar liberación"
+  const btn = tr.querySelector("button");
+  btn.textContent = "Confirmar liberación";
+  btn.onclick = async () => {
+    const validNombre = document.getElementById(`valid-${id}`).value.trim();
+    if (validNombre !== nombreActual) {
+      showToast("El nombre ingresado no coincide con el registro actual.", "error");
+      return;
+    }
+
+    showToast("Liberando regalo...", "info");
+    showLoading(true, "Liberando regalo...");
+
+    try {
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "" })
+      });
+      await cargarRegalos();
+      showToast("El regalo ha sido liberado correctamente.", "info");
+    } catch {
+      showToast("Error al liberar el regalo.", "error");
+    } finally {
+      showLoading(false);
+    }
+  };
 }
 
 cargarRegalos();
