@@ -104,31 +104,19 @@
 
 
 
-/* 🦋 Mariposas suaves que combinan con el fondo y las letras */
-.butterflies {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* 🦋 Mariposas suaves con imagen */
 .butterfly {
   position: absolute;
-  font-size: 2rem;
+  width: 40px;
+  height: auto;
   animation: fly 14s linear infinite;
-  opacity: 0.5;
-  color: #ffb6c1; /* Rosa pastel */
-  text-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.9),
-    0 0 15px rgba(214, 51, 132, 0.6);
-  filter: hue-rotate(330deg) saturate(130%) brightness(1.15);
+  opacity: 0.8;
+  filter: drop-shadow(0 0 6px rgba(255, 182, 193, 0.8))
+          brightness(1.1)
+          saturate(1.2);
 }
 
-/* Variación de posiciones y tiempos */
+/* Variaciones de posición y tiempo */
 .butterfly:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 13s; }
 .butterfly:nth-child(2) { left: 25%; animation-delay: 3s; animation-duration: 11s; }
 .butterfly:nth-child(3) { left: 55%; animation-delay: 6s; animation-duration: 14s; }
@@ -141,7 +129,7 @@
     opacity: 0;
   }
   20% {
-    opacity: 0.9;
+    opacity: 1;
   }
   50% {
     transform: translateY(50vh) translateX(20px) rotate(15deg) scale(1.1);
@@ -154,6 +142,7 @@
     opacity: 0;
   }
 }
+
 
 /* 💖 Animación de color para los corazones */
 .heart {
@@ -168,14 +157,16 @@
 
 </head>
 <body>
-  <!-- Mariposas flotando -->
+
+<!-- Mariposas flotando con imagen -->
 <div class="butterflies">
-  <span class="butterfly">🦋</span>
-  <span class="butterfly">🦋</span>
-  <span class="butterfly">🦋</span>
-  <span class="butterfly">🦋</span>
-  <span class="butterfly">🦋</span>
+  <img src="https://everprieto.github.io/babyshower/mariposa.jpg" class="butterfly" alt="Mariposa">
+  <img src="https://everprieto.github.io/babyshower/mariposa.jpg" class="butterfly" alt="Mariposa">
+  <img src="https://everprieto.github.io/babyshower/mariposa.jpg" class="butterfly" alt="Mariposa">
+  <img src="https://everprieto.github.io/babyshower/mariposa.jpg" class="butterfly" alt="Mariposa">
+  <img src="https://everprieto.github.io/babyshower/mariposa.jpg" class="butterfly" alt="Mariposa">
 </div>
+
 
   <div class="card" id="cardContainer" style="display:none;">
     <img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.png" alt="Baby Shower" />
