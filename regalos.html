@@ -25,12 +25,6 @@
   }
   .btn-reservar { background: #4caf50; }
   .btn-liberar { background: #f44336; }
-  .loading {
-    display: inline-block; width: 16px; height: 16px;
-    border: 2px solid #ccc; border-top: 2px solid #333;
-    border-radius: 50%; animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
   textarea {
     width: 100%; min-height: 50px; resize: vertical;
     padding: 6px; border-radius: 5px; border: 1px solid #ccc;
@@ -38,9 +32,10 @@
   }
   textarea[readonly] { background: #f0f0f0; color: #555; }
 
+  /* 🔔 Toasts */
   .toast-container {
     position: fixed; bottom: 20px; right: 20px;
-    display: flex; flex-direction: column; gap: 10px; z-index: 1000;
+    display: flex; flex-direction: column; gap: 10px; z-index: 2000;
   }
   .toast {
     background: #333; color: #fff; padding: 10px 16px;
@@ -54,10 +49,49 @@
   .toast.info { background: #ff9800; }
   @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeOut { to { opacity: 0; transform: translateY(20px); } }
+
+  /* 🔄 Loading global pantalla completa */
+  #loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(3px);
+    z-index: 1500;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .loading-spinner {
+    width: 40px; height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #ff69b4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  #loading-overlay p {
+    color: #555;
+    font-size: 16px;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    th, td { font-size: 14px; }
+    button { font-size: 13px; padding: 5px 8px; }
+  }
 </style>
 </head>
 <body>
 <h1>🎁 Lista de regalos</h1>
+
+<!-- 🔄 Loading global -->
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p>Procesando, por favor espera...</p>
+</div>
 
 <table id="tablaRegalos">
   <thead>
@@ -72,12 +106,11 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-
-
-  <script>
+<script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwREQo76xyNWt9VIL01RSniTeDDkfgMPO43B5F8xodukexcXWMRtHlntIgqG1AuS_JS_A/exec";
 const tabla = document.querySelector("#tablaRegalos tbody");
 const toastContainer = document.getElementById("toastContainer");
+const loadingOverlay = document.getElementById("loading-overlay");
 
 function showToast(message, type = "info") {
   const toast = document.createElement("div");
@@ -87,13 +120,23 @@ function showToast(message, type = "info") {
   setTimeout(() => toast.remove(), 3500);
 }
 
+function showLoading(show, message = "Procesando, por favor espera...") {
+  loadingOverlay.style.display = show ? "flex" : "none";
+  loadingOverlay.querySelector("p").textContent = message;
+}
+
 async function cargarRegalos() {
+  showLoading(true, "Cargando regalos...");
+  tabla.innerHTML = "";
+
   try {
     const res = await fetch(API_URL);
     const data = await res.json();
     renderTabla(data);
   } catch (err) {
     showToast("Error al cargar la lista", "error");
+  } finally {
+    showLoading(false);
   }
 }
 
@@ -105,8 +148,7 @@ function renderTabla(regalos) {
     tr.innerHTML = `
       <td>${r.regalo} - ${r.descripcion}</td>
       <td>
-        <textarea id="nombre-${r.id}" placeholder="Escribe aquí..." ${reservado ? "readonly" : ""}>
-${r.reservadoPor || ""}</textarea>
+        <textarea id="nombre-${r.id}" placeholder="Escribe aquí..." ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
       </td>
       <td>
         ${reservado
@@ -119,7 +161,6 @@ ${r.reservadoPor || ""}</textarea>
   });
 }
 
-/* ✅ Versión mejorada: valida que el regalo siga disponible antes de reservar */
 async function reservar(id) {
   const nombre = document.getElementById(`nombre-${id}`).value.trim();
   if (!nombre) {
@@ -128,9 +169,9 @@ async function reservar(id) {
   }
 
   showToast("Verificando disponibilidad...", "info");
+  showLoading(true, "Verificando y procesando reserva...");
 
   try {
-    // 1️⃣ Consultar datos actuales desde el backend
     const res = await fetch(API_URL);
     const data = await res.json();
     const regalo = data.find(r => r.id == id);
@@ -140,18 +181,14 @@ async function reservar(id) {
       return;
     }
 
-    // 2️⃣ Validar si aún está disponible
     if (regalo.estado !== "Disponible") {
       showToast(`❌ El regalo "${regalo.regalo}" ya fue reservado por ${regalo.reservadoPor}.`, "error");
       await cargarRegalos();
       return;
     }
 
-    // 3️⃣ Confirmación antes de reservar
     if (!confirm(`¿Deseas reservar "${regalo.regalo}" a nombre de "${nombre}"?`)) return;
 
-    // 4️⃣ Proceder a reservar
-    showToast("Procesando reserva...", "info");
     await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({ id, estado: "Tomado", reservadoPor: nombre })
@@ -159,26 +196,33 @@ async function reservar(id) {
 
     await cargarRegalos();
     showToast(`🎁 Has reservado "${regalo.regalo}" correctamente.`, "success");
-
   } catch (err) {
     showToast("Error al procesar la reserva.", "error");
+  } finally {
+    showLoading(false);
   }
 }
 
 async function liberar(id) {
   showToast("Liberando regalo...", "info");
-  await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "" })
-  });
+  showLoading(true, "Liberando regalo...");
 
-  await cargarRegalos();
-  showToast("El regalo ha sido liberado.", "info");
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "" })
+    });
+    await cargarRegalos();
+    showToast("El regalo ha sido liberado.", "info");
+  } catch {
+    showToast("Error al liberar el regalo.", "error");
+  } finally {
+    showLoading(false);
+  }
 }
 
 cargarRegalos();
 </script>
-
 
 </body>
 </html>
