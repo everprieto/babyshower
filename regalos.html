@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lista de regalos</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { text-align: center; color: #444; }
+  table {
+    width: 100%; border-collapse: collapse; background: white;
+    border-radius: 8px; overflow: hidden;
+  }
+  th, td { padding: 12px; text-align: left; }
+  th { background: #ffb6c1; color: #fff; font-weight: bold; }
+  tr:nth-child(even) { background: #f7f7f7; }
+  button {
+    padding: 6px 10px; border: none; border-radius: 5px;
+    cursor: pointer; color: white;
+  }
+  .btn-reservar { background: #4caf50; }
+  .btn-liberar { background: #f44336; }
+  .loading {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid #ccc; border-top: 2px solid #333;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  textarea {
+    width: 100%; min-height: 50px; resize: vertical;
+    padding: 6px; border-radius: 5px; border: 1px solid #ccc;
+    font-family: inherit;
+  }
+  textarea[readonly] { background: #f0f0f0; color: #555; }
+
+  .toast-container {
+    position: fixed; bottom: 20px; right: 20px;
+    display: flex; flex-direction: column; gap: 10px; z-index: 1000;
+  }
+  .toast {
+    background: #333; color: #fff; padding: 10px 16px;
+    border-radius: 8px; min-width: 200px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    opacity: 0; transform: translateY(20px);
+    animation: slideIn 0.3s forwards, fadeOut 0.3s 3s forwards;
+  }
+  .toast.success { background: #4caf50; }
+  .toast.error { background: #f44336; }
+  .toast.info { background: #ff9800; }
+  @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeOut { to { opacity: 0; transform: translateY(20px); } }
+</style>
+</head>
+<body>
+<h1>🎁 Lista de regalos</h1>
+
+<table id="tablaRegalos">
+  <thead>
+    <tr>
+      <th>Regalo / Descripción</th>
+      <th>Nombre(s) de quien reserva</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+
+  <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwREQo76xyNWt9VIL01RSniTeDDkfgMPO43B5F8xodukexcXWMRtHlntIgqG1AuS_JS_A/exec";
+const tabla = document.querySelector("#tablaRegalos tbody");
+const toastContainer = document.getElementById("toastContainer");
+
+function showToast(message, type = "info") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}
+
+async function cargarRegalos() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    renderTabla(data);
+  } catch (err) {
+    showToast("Error al cargar la lista", "error");
+  }
+}
+
+function renderTabla(regalos) {
+  tabla.innerHTML = "";
+  regalos.forEach(r => {
+    const reservado = r.estado !== "Disponible";
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.regalo} - ${r.descripcion}</td>
+      <td>
+        <textarea id="nombre-${r.id}" placeholder="Escribe aquí..." ${reservado ? "readonly" : ""}>
+${r.reservadoPor || ""}</textarea>
+      </td>
+      <td>
+        ${reservado
+          ? `<button class="btn-liberar" onclick="liberar(${r.id})">Liberar</button>`
+          : `<button class="btn-reservar" onclick="reservar(${r.id})">Reservar</button>`
+        }
+      </td>
+    `;
+    tabla.appendChild(tr);
+  });
+}
+
+/* ✅ Versión mejorada: valida que el regalo siga disponible antes de reservar */
+async function reservar(id) {
+  const nombre = document.getElementById(`nombre-${id}`).value.trim();
+  if (!nombre) {
+    showToast("Por favor escribe un nombre antes de reservar.", "error");
+    return;
+  }
+
+  showToast("Verificando disponibilidad...", "info");
+
+  try {
+    // 1️⃣ Consultar datos actuales desde el backend
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    const regalo = data.find(r => r.id == id);
+
+    if (!regalo) {
+      showToast("Regalo no encontrado.", "error");
+      return;
+    }
+
+    // 2️⃣ Validar si aún está disponible
+    if (regalo.estado !== "Disponible") {
+      showToast(`❌ El regalo "${regalo.regalo}" ya fue reservado por ${regalo.reservadoPor}.`, "error");
+      await cargarRegalos();
+      return;
+    }
+
+    // 3️⃣ Confirmación antes de reservar
+    if (!confirm(`¿Deseas reservar "${regalo.regalo}" a nombre de "${nombre}"?`)) return;
+
+    // 4️⃣ Proceder a reservar
+    showToast("Procesando reserva...", "info");
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ id, estado: "Tomado", reservadoPor: nombre })
+    });
+
+    await cargarRegalos();
+    showToast(`🎁 Has reservado "${regalo.regalo}" correctamente.`, "success");
+
+  } catch (err) {
+    showToast("Error al procesar la reserva.", "error");
+  }
+}
+
+async function liberar(id) {
+  showToast("Liberando regalo...", "info");
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "" })
+  });
+
+  await cargarRegalos();
+  showToast("El regalo ha sido liberado.", "info");
+}
+
+cargarRegalos();
+</script>
+
+
+</body>
+</html>
