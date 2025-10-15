@@ -71,7 +71,7 @@ p { font-size: clamp(0.9em, 2.8vw, 1em); color: var(--texto-suave); margin-botto
 
 a { color: var(--rosa-fuerte); text-decoration: none; font-weight: 600; }
 
-footer { margin-top: 15px; font-size: clamp(0.8em, 2.5vw, 0.95em); color: #999; }
+footer { margin-top: 15px; font-size: clamp(0.8em, 2.5vw, 0.95em); color: var(--rosa-fuerte); }
 
 video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspect-ratio: 16/9; }
 
@@ -155,20 +155,20 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
 </div>
 
 <main class="card" id="cardContainer" style="display:none;">
-  <img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.png" alt="Baby Shower Isabella" />
+  
   <div class="content">
     <div class="titulo">Invitación Baby Shower</div>
     <div class="titulo">💖 Isabella 💖</div>
-
-    <p>Danza el viento entre flores y mariposas,<br>anunciando la llegada más hermosa…<br>nuestra bebé Isabella 🦋</p>
+<img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.png" alt="Baby Shower Isabella" />
+    <p>Danzan las mariposas🦋, brilla el corazón… ¡una hermosa bebé está por llegar a llenar nuestro mundo de amor!</p>
 
     <h2 id="nombreInvitado"></h2>
     <p id="mensajeInvitado"></p>
 
-    <p><strong>📅 Fecha:</strong> 29 de noviembre de 2025, 2 PM</p>
+    <p><strong>📅 Fecha:</strong> 29 de noviembre de 2025, 3 PM</p>
     <p><strong>📍 Lugar:</strong>
       <a href="https://maps.app.goo.gl/ZEeBSt8Lk8HXTy6t5" target="_blank">
-        CALLE 56 F SUR N 94 A 20, Bosa – Porvenir Reservado 11
+        CALLE 56 F SUR N 94 A 20, Bosa, Porvenir Reservado 11. <b><span style="color: blue;">Ver en Maps</span></b>
       </a>
     </p>
 
@@ -181,7 +181,7 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
     </video>
     
  <footer>Con cariño, Claudia y Ever 💕</footer>
-
+<br/><br/>
   </div>
 </main>
 
@@ -207,7 +207,7 @@ if (!codigo) {
       loading.style.display = 'none';
       if (invitado) {
         document.getElementById('nombreInvitado').textContent = `Hola ${invitado.nombre}!`;
-        document.getElementById('mensajeInvitado').textContent = invitado.mensaje;
+        document.getElementById('mensajeInvitado').textContent = invitado.mensaje+"¡Será una tarde para volar entre risas y emoción.!💕";
         card.style.display = "block";
       } else {
         document.body.innerHTML = "<h2 style='text-align:center;color:#d63384;padding:20px;'>Código inválido ❌</h2>";
