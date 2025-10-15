@@ -210,7 +210,7 @@ async function reservar(id) {
 
     await fetch(API_URL, {
       method: "POST",
-      body: JSON.stringify({ id, estado: "Tomado", reservadoPor: nombre,modificadoPor: nombre })
+      body: JSON.stringify({ id, estado: "Tomado", reservadoPor: nombre,reservaAnterior: nombre })
     });
 
     await cargarRegalos();
@@ -258,7 +258,7 @@ async function liberar(id) {
     try {
       await fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "", modificadoPor: nombreActual })
+        body: JSON.stringify({ id, estado: "Disponible", reservadoPor: "", reservaAnterior: nombreActual })
       });
       await cargarRegalos();
       showToast("El regalo ha sido liberado correctamente.", "info");
