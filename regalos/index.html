@@ -104,7 +104,7 @@
 <body>
   <button class="btn-regalos" id="btnRegalos">Regresar a invitación</button>
 <h2>🎁 Lista de regalos</h2>
-
+<p>Escribe el nombre o los nombres de quien(es) entregarán este detalle frente al regalo y luego haz clic en el botón Seleccionar. </p>
 <!-- 🔄 Loading global -->
 <div id="loading-overlay">
   <div class="loading-spinner"></div>
@@ -167,7 +167,7 @@ function renderTabla(regalos) {
     tr.innerHTML = `
       <td>${r.regalo} - ${r.descripcion}</td>
       <td>
-        <textarea id="nombre-${r.id}" placeholder="Ingresa nombre(s) de quien(es) daran este detalle..." ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
+        <textarea id="nombre-${r.id}" placeholder="Escribe aquí nombre(s) de quien(es) daran este detalle..." ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
       </td>
       <td>
         ${reservado
