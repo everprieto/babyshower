@@ -166,7 +166,7 @@ function renderTabla(regalos) {
     const reservado = r.estado !== "Disponible";
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${r.regalo} - ${r.descripcion}</td>
+      <td>${r.regalo} ${r.descripcion}</td>
       <td>
         <textarea id="nombre-${r.id}" placeholder="Escribe aquí" ${reservado ? "readonly" : ""}>${r.reservadoPor || ""}</textarea>
       </td>
