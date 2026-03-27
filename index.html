@@ -9,8 +9,8 @@
 
 <style>
 :root {
-  --rosa: #ffe6f0;
-  --rosa-fuerte: #d63384;
+  --rosa: #a9eefc9d;
+  --rosa-fuerte: #61A4B2;
   --texto: #4a4a4a;
   --texto-suave: #666;
 }
@@ -89,7 +89,7 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.btn-regalos:hover { background: #b52d70; transform: scale(1.05); }
+.btn-regalos:hover { background: #61A4B2; transform: scale(1.05); }
 
 .butterflies {
   position: fixed;
@@ -141,11 +141,11 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
 <body>
 
 <div class="butterflies">
-  <img src="https://everprieto.github.io/babyshower/mariposa.svg" class="butterfly" style="left:5%; animation-delay:0s;">
-  <img src="https://everprieto.github.io/babyshower/mariposa.svg" class="butterfly" style="left:25%; animation-delay:3s; transform: scaleX(-1);">
-  <img src="https://everprieto.github.io/babyshower/mariposa.svg" class="butterfly" style="left:55%; animation-delay:6s; width:50px;">
-  <img src="https://everprieto.github.io/babyshower/mariposa.svg" class="butterfly" style="left:75%; animation-delay:2s; transform: scaleX(-1);">
-  <img src="https://everprieto.github.io/babyshower/mariposa.svg" class="butterfly" style="left:90%; animation-delay:8s; width:30px;">
+  <img src="https://everprieto.github.io/babyshower/imgpies.svg" class="butterfly" style="left:5%; animation-delay:0s;">
+  <img src="https://everprieto.github.io/babyshower/imgpies.svg" class="butterfly" style="left:25%; animation-delay:3s; transform: scaleX(-1);">
+  <img src="https://everprieto.github.io/babyshower/imgpies.svg" class="butterfly" style="left:55%; animation-delay:6s; width:50px;">
+  <img src="https://everprieto.github.io/babyshower/imgpies.svg" class="butterfly" style="left:75%; animation-delay:2s; transform: scaleX(-1);">
+  <img src="https://everprieto.github.io/babyshower/imgpies.svg" class="butterfly" style="left:90%; animation-delay:8s; width:30px;">
 </div>
 
 
@@ -158,17 +158,17 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
   
   <div class="content">
     <div class="titulo">Invitación Baby Shower</div>
-    <div class="titulo">💖 Nombre bebe 💖</div>
-<img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/imagen.png" alt="Baby Shower Isabella" />
-    <p>Danzan las mariposas🦋, brilla el corazón… ¡una hermosa bebé está por llegar a llenar nuestro mundo de amor!</p>
+    <div class="titulo">💖 De un principe 💖</div>
+<img id="imagenTarjeta" src="https://everprieto.github.io/babyshower/elefante.png" alt="Baby Shower Isabella" />
+    <p>Acompañaremos a Karina, a darle la bienvenida a su bebé ¡sera un bello encuentro!</p>
 
     <h2 id="nombreInvitado"></h2>
     <p id="mensajeInvitado"></p>
 
-    <p><strong>📅 Fecha:</strong> XX 2025, 5 PM</p>
+    <p><strong>📅 Fecha:</strong> 07 mayo 2026, 02:30 PM</p>
     <p><strong>📍 Lugar:</strong>
       <a href="" target="_blank">
-        XXXX, XX. <b><span style="color: blue;">Ver en Maps</span></b>
+        Cafeteria de empleados. <b><span style="color: blue;">Ver en Maps</span></b>
       </a>
     </p>
 
@@ -180,7 +180,7 @@ video { width: 100%; border-radius: 15px; margin-top: 15px; outline: none; aspec
       Tu navegador no soporta video HTML5.
     </video>
     
- <footer>Con cariño, XXXX y XXXX 💕🌹</footer>
+ <footer>Con cariño, Karina 💕🌹</footer>
 <br/><br/>
   </div>
 </main>
@@ -205,9 +205,10 @@ if (!codigo) {
     .then(invitados => {
       const invitado = invitados.find(i => i.codigo === codigo);
       loading.style.display = 'none';
+      
       if (invitado) {
         document.getElementById('nombreInvitado').textContent = `Hola ${invitado.nombre}!`;
-        document.getElementById('mensajeInvitado').textContent = "¡Será una tarde para volar entre risas y emoción.!💕";
+        document.getElementById('mensajeInvitado').textContent = "¡Será un momento especial para compartir entre risas, alegría y mucha emoción!💕";
         card.style.display = "block";
       } else {
         document.body.innerHTML = "<h2 style='text-align:center;color:#d63384;padding:20px;'>Código inválido ❌</h2>";
